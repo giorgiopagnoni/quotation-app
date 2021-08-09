@@ -29,10 +29,7 @@ class QuotationRepository
 
     public function deleteById($id): bool
     {
-        $quotation = $this->getById($id);
-        if ($quotation === null) return false;
-        $quotation->delete();
-        return true;
+        return (bool)$this->getById($id)?->delete();
     }
 
     /**
