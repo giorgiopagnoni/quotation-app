@@ -25,9 +25,8 @@ class QuotationController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-        $result['status'] = 201;
-
         try {
+            $result['status'] = 201;
             $result['data'] = $this->quotationService->store($request->toArray());
         } catch (ValidationException $validationException) {
             $result['status'] = 422;
