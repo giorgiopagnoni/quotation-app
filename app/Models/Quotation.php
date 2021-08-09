@@ -12,4 +12,9 @@ class Quotation extends Model
     protected $fillable = [
         'customer', 'total', 'notes'
     ];
+
+    public function getTotalAttribute($value): float
+    {
+        return floatval($value);
+    }
 }

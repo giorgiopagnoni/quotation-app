@@ -17,7 +17,7 @@ class CreateQuotationsTable extends Migration
             $table->id();
             $table->string('customer');
             $table->decimal('total');
-            $table->text('notes');
+            $table->text('notes')->nullable();
             $table->timestamps();
         });
     }

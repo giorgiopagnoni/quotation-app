@@ -6,6 +6,7 @@ use App\Http\Requests\StoreQuotationRequest;
 use App\Services\QuotationService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class QuotationController extends Controller
 {
@@ -19,16 +20,25 @@ class QuotationController extends Controller
     public function index(): JsonResponse
     {
         $quotes = $this->quotationService->getAll();
-        return response()->json($quotes);
+        return response()->json(['data' => $quotes]);
     }
 
-    public function store(StoreQuotationRequest $request): JsonResponse
+    public function store(Request $request): JsonResponse
     {
-        $validated = $request->validated();
+        $result['status'] = 201;
 
-        $this->quotationService->create($validated);
+        try {
+            $result['data'] = $this->quotationService->store($request->toArray());
+        } catch (ValidationException $validationException) {
+            $result['status'] = 422;
+            $result['data']['errors'] = $validationException->errors();
+        } catch (\Exception $exception) {
+            $result['status'] = 500;
+            $result['data'] = $exception->getMessage();
+        }
+
+        return response()->json($result['data'], $result['status']);
     }
-
 
     public function show($id): JsonResponse
     {
