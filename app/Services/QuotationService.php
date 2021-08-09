@@ -4,11 +4,9 @@
 namespace App\Services;
 
 
-use App\Http\Requests\StoreQuotationRequest;
 use App\Models\Quotation;
 use App\Repositories\QuotationRepository;
 use Exception;
-use http\Exception\InvalidArgumentException;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
@@ -25,6 +23,16 @@ class QuotationService
     public function getAll(): Collection
     {
         return $this->quotationRepository->getAll();
+    }
+
+    public function getById($id): ?Quotation
+    {
+        return $this->quotationRepository->getById($id);
+    }
+
+    public function deleteById($id): bool
+    {
+        return $this->quotationRepository->deleteById($id);
     }
 
     /**

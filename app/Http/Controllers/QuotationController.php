@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreQuotationRequest;
 use App\Services\QuotationService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -26,33 +25,37 @@ class QuotationController extends Controller
     public function store(Request $request): JsonResponse
     {
         try {
-            $result['status'] = 201;
+            $status = 201;
             $result['data'] = $this->quotationService->store($request->toArray());
         } catch (ValidationException $validationException) {
-            $result['status'] = 422;
+            $status = 422;
             $result['data']['errors'] = $validationException->errors();
         } catch (\Exception $exception) {
-            $result['status'] = 500;
+            $status = 500;
             $result['data'] = $exception->getMessage();
         }
 
-        return response()->json($result['data'], $result['status']);
+        return response()->json($result, $status);
     }
 
     public function show($id): JsonResponse
     {
-        //
+        $result['data'] = $this->quotationService->getById($id);
+        $status = $result['data'] !== null ? 200 : 404;
+        return response()->json($result, $status);
     }
 
 
     public function update(Request $request, $id): JsonResponse
     {
-        //
+        // TODO
     }
 
 
     public function destroy($id): JsonResponse
     {
-        //
+        $deleted = $this->quotationService->deleteById($id);
+        $status = $deleted === true ? 204 : 404;
+        return response()->json('', $status);
     }
 }

@@ -22,6 +22,19 @@ class QuotationRepository
         return $this->quotation->get();
     }
 
+    public function getById($id): ?Quotation
+    {
+        return $this->quotation->find($id);
+    }
+
+    public function deleteById($id): bool
+    {
+        $quotation = $this->getById($id);
+        if ($quotation === null) return false;
+        $quotation->delete();
+        return true;
+    }
+
     /**
      * @throws Exception
      */
