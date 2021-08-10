@@ -13,5 +13,5 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-Route::apiResource('quotation', QuotationController::class);
+Route::post('/auth/login', [\App\Http\Controllers\AuthController::class, 'login'])->name('auth.login');
+Route::middleware('auth:sanctum')->apiResource('quotation', QuotationController::class);
