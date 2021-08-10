@@ -22,10 +22,17 @@ class QuotationController extends Controller
         return response()->json(['data' => $quotes]);
     }
 
+    public function show($id): JsonResponse
+    {
+        $result['data'] = $this->quotationService->getById($id);
+        $status = $result['data'] !== null ? 200 : 404;
+        return response()->json($result, $status);
+    }
+
     public function store(Request $request): JsonResponse
     {
         try {
-            $status = 201;
+            $status = 200; // resource created AND returned
             $result['data'] = $this->quotationService->store($request->toArray());
         } catch (ValidationException $validationException) {
             $status = 422;
@@ -38,17 +45,20 @@ class QuotationController extends Controller
         return response()->json($result, $status);
     }
 
-    public function show($id): JsonResponse
-    {
-        $result['data'] = $this->quotationService->getById($id);
-        $status = $result['data'] !== null ? 200 : 404;
-        return response()->json($result, $status);
-    }
-
-
     public function update(Request $request, $id): JsonResponse
     {
-        // TODO
+        try {
+            $result['data'] = $this->quotationService->update($id, $request->toArray());
+            $status = $result['data'] ? 200 : 404;
+        } catch (ValidationException $validationException) {
+            $status = 422;
+            $result['data']['errors'] = $validationException->errors();
+        } catch (\Exception $exception) {
+            $status = 500;
+            $result['data'] = $exception->getMessage();
+        }
+
+        return response()->json($result, $status);
     }
 
 

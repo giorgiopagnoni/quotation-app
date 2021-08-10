@@ -53,4 +53,22 @@ class QuotationService
 
         return $this->quotationRepository->store($data);
     }
+
+    /**
+     * @throws ValidationException
+     * @throws Exception
+     */
+    public function update($id, $data): ?Quotation
+    {
+        $validator = Validator::make($data, [
+            'total' => 'required|numeric',
+            'notes' => '',
+        ]);
+
+        if ($validator->fails()) {
+            throw new ValidationException($validator);
+        }
+
+        return $this->quotationRepository->update($id, $data);
+    }
 }

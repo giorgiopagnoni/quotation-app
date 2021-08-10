@@ -44,4 +44,17 @@ class QuotationRepository
         $q->save();
         return $q->fresh();
     }
+
+    /**
+     * @throws Exception
+     */
+    public function update($id, $data): ?Quotation
+    {
+        $q = $this->getById($id);
+        if (!$q) return null;
+        $q->total = $data['total'];
+        $q->notes = $data['notes'] ?? null;
+        $q->update();
+        return $q;
+    }
 }
