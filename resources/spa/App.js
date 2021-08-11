@@ -2,7 +2,7 @@ import { render } from "react-dom";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute";
 import Login from "./Login";
-import QuotationDetail from "./QuotationDetail";
+import QuotationEdit from "./QuotationEdit";
 import QuotationList from "./QuotationList";
 
 const App = () => {
@@ -14,10 +14,7 @@ const App = () => {
                         <Login />
                     </Route>
                     <PrivateRoute exact path="/" comp={QuotationList} />
-                    <PrivateRoute
-                        path="/quotation/:id"
-                        comp={QuotationDetail}
-                    />
+                    <PrivateRoute path="/quotation/:id" comp={QuotationEdit} />
                 </Switch>
             </Router>
         </header>

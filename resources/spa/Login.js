@@ -11,18 +11,19 @@ const Login = () => {
     async function login() {
         const res = await fetch(`http://localhost:80/api/auth/login`, {
             method: "POST",
-            body: JSON.stringify({
-                email: email,
-                password: password,
-            }),
             headers: {
                 "Content-Type": "application/json",
                 Accept: "application/json",
             },
+            body: JSON.stringify({
+                email: email,
+                password: password,
+            }),
         });
 
         if (res.status !== 200) {
             setError("Wrong credentials");
+            return;
         }
 
         const json = await res.json();

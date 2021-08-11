@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const QuotationList = () => {
     const [quotations, setQuotations] = useState([]);
@@ -22,6 +23,9 @@ const QuotationList = () => {
 
     const tableRows = quotations.map((q) => (
         <tr id={q.id} key={q.id}>
+            <td>
+                <Link to={`/quotation/${q.id}`}>Edit</Link>
+            </td>
             <td>{q.customer}</td>
             <td>{q.total}</td>
             <td>{q.notes}</td>
@@ -32,6 +36,7 @@ const QuotationList = () => {
         <table style={{ width: "100%" }}>
             <thead>
                 <tr>
+                    <th />
                     <th>Customer</th>
                     <th>Total</th>
                     <th>Notes</th>
