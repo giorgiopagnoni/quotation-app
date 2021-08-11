@@ -1,4 +1,3 @@
-
 const QuotationList = () => {
     /*const [quotations, setQuotations] = useState([]);
 
@@ -24,7 +23,7 @@ const QuotationList = () => {
         console.log(json);
     }*/
 
-    return (<div>list</div>);
+    return <div>list</div>;
 };
 
 export default QuotationList;

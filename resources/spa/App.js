@@ -11,17 +11,17 @@ const App = () => {
             <Router>
                 <Switch>
                     <Route path="/login">
-                        <Login/>
+                        <Login />
                     </Route>
-                    <PrivateRoute path="/quotation/:id" comp={QuotationDetail}/>
-                    <PrivateRoute exact path="/" comp={QuotationList}/>
+                    <PrivateRoute
+                        path="/quotation/:id"
+                        comp={QuotationDetail}
+                    />
+                    <PrivateRoute exact path="/" comp={QuotationList} />
                 </Switch>
             </Router>
         </header>
     );
 };
 
-render(
-    <App />,
-    document.getElementById("root")
-);
+render(<App />, document.getElementById("root"));

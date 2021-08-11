@@ -1,5 +1,5 @@
 import { useState } from "react";
-import {useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 const Login = () => {
     const [email, setEmail] = useState("");
@@ -9,19 +9,17 @@ const Login = () => {
     let history = useHistory();
 
     async function login() {
-        const res = await fetch(
-            `http://localhost:80/api/auth/login`, {
-                method: "POST",
-                body: JSON.stringify({
-                    email: email,
-                    password: password
-                }),
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept": "application/json"
-                }
-            }
-        );
+        const res = await fetch(`http://localhost:80/api/auth/login`, {
+            method: "POST",
+            body: JSON.stringify({
+                email: email,
+                password: password,
+            }),
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+            },
+        });
 
         if (res.status !== 200) {
             setError("Wrong credentials");
@@ -59,7 +57,7 @@ const Login = () => {
                         onChange={(e) => setPassword(e.target.value)}
                         value={password}
                         placeholder="Password"
-                        type='password'
+                        type="password"
                     />
                 </label>
                 <br />
