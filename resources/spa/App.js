@@ -13,11 +13,11 @@ const App = () => {
                     <Route path="/login">
                         <Login />
                     </Route>
+                    <PrivateRoute exact path="/" comp={QuotationList} />
                     <PrivateRoute
                         path="/quotation/:id"
                         comp={QuotationDetail}
                     />
-                    <PrivateRoute exact path="/" comp={QuotationList} />
                 </Switch>
             </Router>
         </header>
