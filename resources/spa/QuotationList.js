@@ -17,20 +17,33 @@ const QuotationList = () => {
         setQuotations(json.data);
     }
 
+    function handleDeleteQuotationClick(event) {
+        event.preventDefault();
+        if (
+            window.confirm(
+                "Delete quotation for customer " + event.target.dataset.customer
+            )
+        ) {
+            deleteQuotation(event.target.dataset.id);
+        }
+    }
+
+    async function deleteQuotation(id) {
+        const res = await fetch(`http://localhost:80/api/quotation/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+        });
+
+        requestQuotations();
+    }
+
     useEffect(() => {
         requestQuotations();
     }, []);
-
-    const tableRows = quotations.map((q) => (
-        <tr id={q.id} key={q.id}>
-            <td>
-                <Link to={`/quotation/${q.id}`}>Edit</Link>
-            </td>
-            <td>{q.customer}</td>
-            <td>{q.total}</td>
-            <td>{q.notes}</td>
-        </tr>
-    ));
 
     return (
         <table style={{ width: "100%" }}>
@@ -42,7 +55,27 @@ const QuotationList = () => {
                     <th>Notes</th>
                 </tr>
             </thead>
-            <tbody>{tableRows}</tbody>
+            <tbody>
+                {quotations.map((q) => (
+                    <tr id={q.id} key={q.id}>
+                        <td>
+                            <Link to={`/quotation/${q.id}`}>Edit</Link>
+                            &nbsp;
+                            <a
+                                href="#"
+                                data-id={q.id}
+                                data-customer={q.customer}
+                                onClick={handleDeleteQuotationClick}
+                            >
+                                Delete
+                            </a>
+                        </td>
+                        <td>{q.customer}</td>
+                        <td>{q.total}</td>
+                        <td>{q.notes}</td>
+                    </tr>
+                ))}
+            </tbody>
         </table>
     );
 };

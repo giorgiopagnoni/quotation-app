@@ -112,7 +112,7 @@ const QuotationEdit = (props) => {
                 </label>
                 <br />
                 <button>Update</button>
-                <br/>
+                <br />
                 <Link to="/">Back to List</Link>
             </form>
         </div>
