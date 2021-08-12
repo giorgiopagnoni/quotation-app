@@ -14,6 +14,7 @@ const App = () => {
                         <Login />
                     </Route>
                     <PrivateRoute exact path="/" comp={QuotationList} />
+                    <PrivateRoute exact path="/quotation" comp={QuotationEdit} />
                     <PrivateRoute path="/quotation/:id" comp={QuotationEdit} />
                 </Switch>
             </Router>

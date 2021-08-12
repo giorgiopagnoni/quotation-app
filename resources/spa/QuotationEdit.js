@@ -6,8 +6,10 @@ const QuotationEdit = (props) => {
     const [total, setTotal] = useState(0);
     const [notes, setNotes] = useState("");
     const [errors, setErrors] = useState("");
-
     let history = useHistory();
+
+    const id = props.match.params.id ? props.match.params.id : "";
+    const method = id ? "PUT" : "POST";
 
     useEffect(() => {
         requestQuotation();
@@ -20,6 +22,8 @@ const QuotationEdit = (props) => {
     }
 
     async function requestQuotation() {
+        if (!id) return;
+
         const res = await fetch(
             `http://localhost:80/api/quotation/${props.match.params.id}`,
             {
@@ -40,27 +44,29 @@ const QuotationEdit = (props) => {
         populateQuotation(json.data);
     }
 
-    async function updateQuotation() {
-        const res = await fetch(
-            `http://localhost:80/api/quotation/${props.match.params.id}`,
-            {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                    Accept: "application/json",
-                    Authorization: "Bearer " + localStorage.getItem("token"),
-                },
-                body: JSON.stringify({
-                    customer,
-                    total,
-                    notes,
-                }),
-            }
-        );
+    async function upsertQuotation() {
+        const res = await fetch(`http://localhost:80/api/quotation/${id}`, {
+            method: method,
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+            body: JSON.stringify({
+                customer,
+                total,
+                notes,
+            }),
+        });
 
         const json = await res.json();
 
         if (res.status === 200) {
+            setErrors("");
+            if(method === "POST"){
+                history.push(`/quotation/${json.data.id}`);
+                return;
+            }
             populateQuotation(json.data);
         } else if (res.status === 422) {
             //  todo: actual errors from server
@@ -76,7 +82,7 @@ const QuotationEdit = (props) => {
             <form
                 onSubmit={(e) => {
                     e.preventDefault();
-                    updateQuotation();
+                    upsertQuotation();
                 }}
             >
                 <label htmlFor="customer">
@@ -86,7 +92,7 @@ const QuotationEdit = (props) => {
                         onChange={(e) => setCustomer(e.target.value)}
                         value={customer}
                         placeholder="Customer"
-                        disabled
+                        disabled={id !== ""}
                     />
                 </label>
                 <br />
@@ -111,7 +117,7 @@ const QuotationEdit = (props) => {
                     />
                 </label>
                 <br />
-                <button>Update</button>
+                <button>{method==="PUT" ? 'Update' : 'Insert'}</button>
                 <br />
                 <Link to="/">Back to List</Link>
             </form>

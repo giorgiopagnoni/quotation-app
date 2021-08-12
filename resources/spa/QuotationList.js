@@ -46,37 +46,40 @@ const QuotationList = () => {
     }, []);
 
     return (
-        <table style={{ width: "100%" }}>
-            <thead>
-                <tr>
-                    <th />
-                    <th>Customer</th>
-                    <th>Total</th>
-                    <th>Notes</th>
-                </tr>
-            </thead>
-            <tbody>
-                {quotations.map((q) => (
-                    <tr id={q.id} key={q.id}>
-                        <td>
-                            <Link to={`/quotation/${q.id}`}>Edit</Link>
-                            &nbsp;
-                            <a
-                                href="#"
-                                data-id={q.id}
-                                data-customer={q.customer}
-                                onClick={handleDeleteQuotationClick}
-                            >
-                                Delete
-                            </a>
-                        </td>
-                        <td>{q.customer}</td>
-                        <td>{q.total}</td>
-                        <td>{q.notes}</td>
+        <div>
+            <Link to={`/quotation`}>Add</Link>
+            <table style={{ width: "100%" }}>
+                <thead>
+                    <tr>
+                        <th />
+                        <th>Customer</th>
+                        <th>Total</th>
+                        <th>Notes</th>
                     </tr>
-                ))}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    {quotations.map((q) => (
+                        <tr id={q.id} key={q.id}>
+                            <td>
+                                <Link to={`/quotation/${q.id}`}>Edit</Link>
+                                &nbsp;
+                                <a
+                                    href="#"
+                                    data-id={q.id}
+                                    data-customer={q.customer}
+                                    onClick={handleDeleteQuotationClick}
+                                >
+                                    Delete
+                                </a>
+                            </td>
+                            <td>{q.customer}</td>
+                            <td>{q.total}</td>
+                            <td>{q.notes}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
     );
 };
 
