@@ -2,12 +2,20 @@
 
 namespace Database\Seeders;
 
+use App\Services\QuotationService;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
+    private QuotationService $quotationServie;
+
+    public function __construct(QuotationService $quotationService)
+    {
+        $this->quotationServie = $quotationService;
+    }
+
     /**
      * Seed the application's database.
      *
@@ -20,6 +28,22 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@quotationapp.com',
             'password' => Hash::make('password'),
             // 'email_verified_at' => (new \DateTime())->format('Y-m-d H:i:s')
+        ]);
+
+        $this->quotationServie->store([
+            'customer' => 'Sintattica SRL',
+            'total' => 200.24
+        ]);
+
+        $this->quotationServie->store([
+            'customer' => 'Jobtech SRL',
+            'total' => 189
+        ]);
+
+        $this->quotationServie->store([
+            'customer' => 'ACME SPA',
+            'total' => 600,
+            'notes' => 'notes'
         ]);
     }
 }
