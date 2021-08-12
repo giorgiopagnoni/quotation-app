@@ -9,11 +9,11 @@ use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
-    private QuotationService $quotationServie;
+    private QuotationService $quotationService;
 
     public function __construct(QuotationService $quotationService)
     {
-        $this->quotationServie = $quotationService;
+        $this->quotationService = $quotationService;
     }
 
     /**
@@ -30,17 +30,17 @@ class DatabaseSeeder extends Seeder
             // 'email_verified_at' => (new \DateTime())->format('Y-m-d H:i:s')
         ]);
 
-        $this->quotationServie->store([
+        $this->quotationService->store([
             'customer' => 'Sintattica SRL',
             'total' => 200.24
         ]);
 
-        $this->quotationServie->store([
+        $this->quotationService->store([
             'customer' => 'Jobtech SRL',
             'total' => 189
         ]);
 
-        $this->quotationServie->store([
+        $this->quotationService->store([
             'customer' => 'ACME SPA',
             'total' => 600,
             'notes' => 'notes'
